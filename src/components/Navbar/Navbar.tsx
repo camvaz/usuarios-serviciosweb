@@ -1,15 +1,22 @@
 import React from "react"
-import { Box, Header, Heading } from "grommet"
-import { Anchor } from "react-feather"
+import { Box, Text, Header, Heading } from "grommet"
+import { Cpu } from "react-feather"
 
 function Navbar() {
   return (
-    <Header background="brand">
+    <Header
+      background="accent-1"
+      className="shadow"
+      style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25);" }}
+    >
       <Box direction="row" align="center" pad={{ horizontal: "large" }}>
-        <Anchor size="32" />
+        <Cpu size="32" />
         <Heading margin={{ vertical: "medium", left: "medium" }}>
-          Practica 6.
+          Administración de usuarios
         </Heading>
+        <Text margin="medium" alignSelf="end">
+          Por Christian Hernandez
+        </Text>
       </Box>
     </Header>
   )

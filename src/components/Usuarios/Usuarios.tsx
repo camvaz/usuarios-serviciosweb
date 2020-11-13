@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { Box, Button, DataTable, Heading } from "grommet"
+import { Text, Box, Button, DataTable, Heading } from "grommet"
 import useModal from "react-hooks-use-modal"
 
 import { User } from "../../App"
@@ -46,15 +46,33 @@ const Usuarios: React.FC = () => {
   })
 
   return (
-    <Box direction="column" pad={{ vertical: "large", horizontal: "medium" }}>
-      <Heading size="small" margin="none">
-        Usuarios
+    <Box
+      direction="column"
+      pad={{ bottom: "large", top: "medium", horizontal: "medium" }}
+    >
+      <Text margin="small">Instrucciones</Text>
+      <ul style={{ margin: "0" }}>
+        <li>
+          Para agregar usuarios, hacer click al botón de agregar usuarios.
+        </li>
+        <li>
+          Para actualizar alguno, hacer click sobre un registro y llenar el
+          formulario.
+        </li>
+        <li>
+          ¡La actualización es en tiempo real! Al actualizar un registro el
+          estado del componente se actualiza y re-renderiza los nuevos datos
+        </li>
+      </ul>
+      <Heading size="small" margin={{ top: "medium", bottom: "none" }}>
+        Registros 🔥
       </Heading>
       <DataTable
         margin={{ vertical: "medium" }}
         columns={columns}
         data={mapUsers(usuarios)}
         sortable
+        background={{ header: "dark-2", body: ["white", "light-2"] }}
         resizeable
         onClickRow={({ datum }) => {
           setUserToUpdate(() => ({ ...datum } as User))
@@ -64,13 +82,15 @@ const Usuarios: React.FC = () => {
       />
       <Button
         style={{ width: "fit-content" }}
-        color="brand"
+        color="accent-1"
         onClick={(e) => {
           e.persist()
           setUpdate(() => false)
           open()
         }}
         primary
+        margin={{ top: "large" }}
+        className="shadow"
         label="Agregar usuario"
       />
       <Modal>
@@ -79,7 +99,9 @@ const Usuarios: React.FC = () => {
           height="inherit"
           width="500px"
           pad={{ vertical: "medium", horizontal: "large" }}
-          style={{ borderRadius: "5px" }}
+          style={{
+            borderRadius: "5px",
+          }}
         >
           {update ? (
             <UpdateUserForm close={close} userProp={userToUpdate} />

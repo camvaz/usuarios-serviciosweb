@@ -121,6 +121,7 @@ const UInfoForm: React.FC<{
                 ></TextInput>
               </FormField>
               <Button
+                color="accent-1"
                 margin={{ vertical: "medium" }}
                 type="submit"
                 disabled={isSubmitting}

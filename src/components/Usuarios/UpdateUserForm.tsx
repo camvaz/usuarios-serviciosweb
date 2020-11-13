@@ -114,6 +114,7 @@ const UpdateUserForm: React.FC<{
               <Button
                 margin={{ vertical: "medium" }}
                 type="submit"
+                color="accent-1"
                 disabled={isSubmitting}
                 primary
                 label="Enviar"
