@@ -1,6 +1,7 @@
 import React, { Dispatch } from "react"
-import { Box, Button, FormField, Text, Heading, TextInput } from "grommet"
+import { Button, FormField, Text, Heading, TextInput } from "grommet"
 import { Form, Formik } from "formik"
+import { useToasts } from "react-toast-notifications"
 
 const UserForm: React.FC<{
   setCreated: React.Dispatch<
@@ -10,6 +11,7 @@ const UserForm: React.FC<{
     }>
   >
 }> = ({ setCreated }) => {
+  const { addToast } = useToasts()
   return (
     <>
       <Heading size="small" textAlign="center" margin={{ top: "small" }}>
@@ -40,11 +42,18 @@ const UserForm: React.FC<{
             body: datos,
           })
             .then((res) => res.json())
-            .then(() => {
+            .then((data) => {
+              addToast(
+                `Operación exitosa. \nMensaje: ${JSON.stringify(data)}`,
+                {
+                  appearance: "success",
+                }
+              )
               setSubmitting(false)
               setCreated(() => ({ id: newUser, confirmed: true }))
             })
             .catch((e) => {
+              addToast(`Error. \nMensaje: ${e}`, { appearance: "error" })
               setSubmitting(false)
               console.log(e)
             })
@@ -78,46 +87,6 @@ const UserForm: React.FC<{
                   onChange={onChangeValues}
                 ></TextInput>
               </FormField>
-              {/* <FormField label="Nombre">
-                <TextInput
-                  placeholder="Ingresa nombre"
-                  name="nombre"
-                  value={values.nombre}
-                  onChange={onChangeValues}
-                ></TextInput>
-              </FormField>
-              <FormField label="Correo">
-                <TextInput
-                  placeholder="Ingresa correo"
-                  name="correo"
-                  value={values.correo}
-                  onChange={onChangeValues}
-                ></TextInput>
-              </FormField>
-              <FormField label="Rol">
-                <TextInput
-                  placeholder="Ingresa rol"
-                  name="rol"
-                  value={values.rol}
-                  onChange={onChangeValues}
-                ></TextInput>
-              </FormField>
-              <FormField label="Telefono">
-                <TextInput
-                  placeholder="Ingresa Teléfono"
-                  name="telefono"
-                  value={values.telefono}
-                  onChange={onChangeValues}
-                ></TextInput>
-              </FormField>
-              <FormField label="Telefono">
-                <TextInput
-                  placeholder="Ingresa Teléfono"
-                  name="telefono"
-                  value={values.telefono}
-                  onChange={onChangeValues}
-                ></TextInput>
-              </FormField> */}
               <Text weight="bold" margin={{ vertical: "small" }}>
                 Credenciales de acceso
               </Text>
@@ -133,6 +102,7 @@ const UserForm: React.FC<{
                 <TextInput
                   placeholder="Ingresa Contraseña"
                   name="pass"
+                  type="password"
                   value={values.pass}
                   onChange={onChangeValues}
                 ></TextInput>

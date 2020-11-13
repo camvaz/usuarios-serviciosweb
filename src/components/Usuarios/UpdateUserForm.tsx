@@ -1,12 +1,15 @@
+import React from "react"
 import { Form, Formik } from "formik"
 import { Text, Button, FormField, Heading, TextInput } from "grommet"
-import React from "react"
+import { useToasts } from "react-toast-notifications"
+
 import { User } from "../../App"
 
 const UpdateUserForm: React.FC<{
   userProp: User
   close: any
 }> = ({ userProp, close }) => {
+  const { addToast } = useToasts()
   return (
     <>
       <Heading size="small" textAlign="center" margin={{ top: "small" }}>
@@ -43,9 +46,18 @@ const UpdateUserForm: React.FC<{
           })
             .then((res) => res.json())
             .then((data) => {
+              addToast(
+                `Operación exitosa. \nMensaje: ${JSON.stringify(data)}`,
+                {
+                  appearance: "success",
+                }
+              )
               close()
             })
-            .catch((e) => console.log(e))
+            .catch((e) => {
+              addToast(`Error. \nMensaje: ${e}`, { appearance: "error" })
+              console.log(e)
+            })
           setSubmitting(false)
         }}
       >
@@ -108,6 +120,7 @@ const UpdateUserForm: React.FC<{
                   placeholder="Ingresa Contraseña"
                   name="pass"
                   value={values.pass}
+                  type="password"
                   onChange={onChangeValues}
                 ></TextInput>
               </FormField>

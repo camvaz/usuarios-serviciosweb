@@ -1,5 +1,6 @@
 import React from "react"
 import { Grommet } from "grommet"
+import { ToastProvider } from "react-toast-notifications"
 
 import UserState from "./context/state/UserState"
 import CondeRouter from "./components/CondeRouter"
@@ -14,17 +15,6 @@ export interface User {
   id?: string
 }
 
-const fetchUsers = () => {
-  const headers = new Headers()
-  headers.append("Content-Type", "text/xml")
-  headers.append("SOAPAction", "basicInvoke")
-  return fetch("http://localhost:58062/WSUsuarios.svc?wsdl", {
-    headers,
-    mode: "cors",
-    method: "POST",
-    // body:
-  })
-}
 const theme = {
   global: {
     // colors: {
@@ -40,11 +30,13 @@ const theme = {
 
 function App() {
   return (
-    <UserState>
-      <Grommet theme={theme}>
-        <CondeRouter />
-      </Grommet>
-    </UserState>
+    <ToastProvider autoDismiss autoDismissTimeout={6000}>
+      <UserState>
+        <Grommet theme={theme}>
+          <CondeRouter />
+        </Grommet>
+      </UserState>
+    </ToastProvider>
   )
 }
 
