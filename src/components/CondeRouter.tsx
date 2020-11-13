@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react"
+import React, { useCallback, useContext, useEffect } from "react"
 import firebase from "firebase/app"
-import { Switch, Route, BrowserRouter as Router } from "react-router-dom"
+import { Switch, BrowserRouter as Router } from "react-router-dom"
 import { User } from "../App"
 import { UserContext } from "../context/UserContext"
 import Firebase from "../firebase/firebase"
@@ -8,9 +8,9 @@ import EnhancedRoute from "./EnhancedRoute"
 import Usuarios from "./Usuarios/Usuarios"
 
 const CondeRouter: React.FC = () => {
-  const { usuarios, setUsuarios } = useContext(UserContext)
+  const { setUsuarios } = useContext(UserContext)
 
-  const fetchStuff = () => {
+  const fetchStuff = useCallback(() => {
     Firebase.database
       .ref(`usuarios_info`)
       .on("value", (snap: firebase.database.DataSnapshot) => {
@@ -22,12 +22,13 @@ const CondeRouter: React.FC = () => {
           }))
         })
       })
-  }
+  }, [setUsuarios])
 
   useEffect(() => {
     fetchStuff()
     return () => {}
-  }, [])
+  }, [fetchStuff])
+
   return (
     <Router>
       <Switch>

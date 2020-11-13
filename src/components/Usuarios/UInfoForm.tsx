@@ -1,6 +1,7 @@
+import React from "react"
 import { Form, Formik } from "formik"
 import { Button, Text, FormField, Heading, TextInput } from "grommet"
-import React from "react"
+import { useToasts } from "react-toast-notifications"
 
 const UInfoForm: React.FC<{
   data: { id: string; confirmed: boolean }
@@ -12,6 +13,7 @@ const UInfoForm: React.FC<{
   >
   close: any
 }> = ({ setCreated, data, close }) => {
+  const { addToast } = useToasts()
   return (
     <>
       <Heading size="small" textAlign="center" margin={{ top: "small" }}>
@@ -49,12 +51,23 @@ const UInfoForm: React.FC<{
             // mode: "cors",
             body: datos,
           })
-            .then((res) => res.json())
+            .then((res) => {
+              return res.json()
+            })
             .then((data) => {
+              addToast(
+                `Operación exitosa. \nMensaje: ${JSON.stringify(data)}`,
+                {
+                  appearance: "success",
+                }
+              )
               setCreated(() => ({ id: "", confirmed: false }))
               close()
             })
-            .catch((e) => console.log(e))
+            .catch((e) => {
+              addToast(`Error. \nMensaje: ${e}`, { appearance: "error" })
+              console.log(e)
+            })
           setSubmitting(false)
         }}
       >
@@ -117,6 +130,7 @@ const UInfoForm: React.FC<{
                   placeholder="Ingresa Contraseña"
                   name="pass"
                   value={values.pass}
+                  type="password"
                   onChange={onChangeValues}
                 ></TextInput>
               </FormField>
