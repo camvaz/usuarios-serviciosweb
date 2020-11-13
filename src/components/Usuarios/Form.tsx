@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react"
+import React from "react"
 import { Button, FormField, Text, Heading, TextInput } from "grommet"
 import { Form, Formik } from "formik"
 import { useToasts } from "react-toast-notifications"
@@ -43,6 +43,12 @@ const UserForm: React.FC<{
           })
             .then((res) => res.json())
             .then((data) => {
+              if (data.setUserResult.code === "500") {
+                addToast(`Error. \nMensaje: ${JSON.stringify(data)}`, {
+                  appearance: "error",
+                })
+                return
+              }
               addToast(
                 `Operación exitosa. \nMensaje: ${JSON.stringify(data)}`,
                 {
