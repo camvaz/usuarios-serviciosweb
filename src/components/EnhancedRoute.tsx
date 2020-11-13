@@ -1,6 +1,5 @@
 import React from "react"
 import { Route, RouteComponentProps } from "react-router-dom"
-import { User } from "../App"
 import Navbar from "./Navbar/Navbar"
 
 interface ERProps {
